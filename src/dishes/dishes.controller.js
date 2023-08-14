@@ -77,15 +77,19 @@ function read(req, res, next){
 ///////////////////
 function update(req, res) {
     const dish = res.locals.dish
-      const { data: { name, description, price, image_url, id } = {} } = req.body;
+      const { data: { name, description, price, image_url } = {} } = req.body;
     
       // Update the paste
-      dish.name = name;
-      dish.description = description;
-      dish.price = price;
-      dish.image_url = image_url;
+      const updatedDish = {
+        ...dish,
+        name : name,
+        description : description,
+        price : price,
+        image_url : image_url
+      }
+      
     
-      res.json({ data: dish });
+      res.json({ data: updatedDish });
 }
 ///////////////////
 

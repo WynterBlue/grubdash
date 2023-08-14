@@ -140,12 +140,16 @@ function update(req, res) {
       const { data: { deliverTo, mobileNumber, status, dishes } = {} } = req.body;
     
       // Update the paste
-      order.deliverTo = deliverTo;
-      order.mobileNumber = mobileNumber;
-      order.status = status;
-      order.dishes = dishes;
+      const updatedOrder = {
+        ...order,
+        deliverTo : deliverTo,
+        mobileNumber : mobileNumber,
+        status : status,
+        dishes : dishes
+      }
+      
     
-      res.json({ data: order });
+      res.json({ data: updatedOrder });
 }
 ///////////////////
 function destroy(req, res) {
