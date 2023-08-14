@@ -26,13 +26,14 @@ function bodyDataHas(propertyName) {
     return function (req, res, next) {
       const { data = {} } = req.body;
       if (data[propertyName] && data[propertyName].length > 0 || Number.isInteger(data[propertyName])) {
+        res.locals.data = data
         return next();
       }
       next({ status: 400, message: `Dish must include a ${propertyName}` });
     };
 }
 function priceIsValidNumber(req, res, next){
-    const { data: { price }  = {} } = req.body;
+    const { price }  = {} = res.locals.data
     if (price <= 0 || !Number.isInteger(price)){
         return next({
             status: 400,
@@ -55,7 +56,7 @@ function bodyIdMatchesRouteId(req, res, next){
 }
 ///////////////////
 function create(req, res) {
-    const { data: { name, description, price, image_url } = {} } = req.body;
+    const { name, description, price, image_url } = {} = res.locals.data
     const id = nextId()
     const newDish = {
       id,

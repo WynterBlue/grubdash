@@ -47,7 +47,7 @@ function bodyDataHasDish(propertyName) {
 }
 function bodyDataHasStatus(propertyName) {
   return function (req, res, next) {
-    const { data = {} } = req.body;
+    const data = res.locals.data
     const validStatuses = ["pending", "preparing", "out-for-delivery", "delivered"];
     if (!data[propertyName] || data[propertyName].length <= 0 || !validStatuses.includes(data[propertyName])) {
       return next({
@@ -78,7 +78,7 @@ function statusIsPending(propertyName){
     }
 }
 function dishesIsValid(req, res, next) {
-  const { data: { dishes } = {} } = req.body;
+  const { dishes } = {} = res.locals.data;
   if (Array.isArray(dishes) && dishes.length > 0) {
     next();
   } else {
@@ -89,7 +89,7 @@ function dishesIsValid(req, res, next) {
   }
 }
 function dishQuantityIsValid(req, res, next) {
-  const { data: { dishes } = {} } = req.body;
+    const { dishes } = {} = res.locals.data;
   for (let i = 0; i < dishes.length; i++) {
     const dish = dishes[i];
     const quantity = dish.quantity;
@@ -118,7 +118,7 @@ function bodyIdMatchesRouteId(req, res, next) {
 ///////////////////
 function create(req, res, next) {
   //make a new order
-  const { data: { deliverTo, mobileNumber, dishes } = {} } = req.body;
+  const { deliverTo, mobileNumber, dishes } = {}  = res.locals.data
   const id = nextId();
   const newOrder = {
     id,
@@ -131,8 +131,7 @@ function create(req, res, next) {
 }
 ///////////////////
 function read(req, res, next) {
-  const orderId = req.params.orderId;
-  const foundOrder = orders.find((order) => order.id === orderId);
+  const foundOrder = res.locals.order
   res.json({ data: foundOrder });
 }
 ///////////////////
