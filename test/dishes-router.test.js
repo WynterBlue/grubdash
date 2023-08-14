@@ -7,7 +7,7 @@ const ATTACHED_PATH = "/dishes-router";
 
 const app = makeTestApp(ATTACHED_PATH, dishesRouter);
 
-describe.skip("dishes router", () => {
+describe("dishes router", () => {
   beforeEach(() => {
     dishes.splice(0, dishes.length);
   });
